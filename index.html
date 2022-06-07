@@ -110,7 +110,7 @@
     <!-- akhir navbar -->
     <!-- jumbotron -->
     <section class="jumbotron text-center">
-      <img src="img/adrian.jpeg" alt="adrian" width="200px" class="rounded-circle img-thumbnail">
+      <img src="img/gambar 2.jpeg" alt="adrian" width="200px" class="rounded-circle img-thumbnail">
       <h2 class="display-4">Adriansyah Sugianto</h2>
       <p class="lead fs-3">Junior Programmer</p>
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="#95c6f3f1" fill-opacity="1" d="M0,192L48,192C96,192,192,192,288,181.3C384,171,480,149,576,154.7C672,160,768,192,864,213.3C960,235,1056,245,1152,224C1248,203,1344,149,1392,122.7L1440,96L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path></svg>    </section>
@@ -126,13 +126,14 @@
         <div class="row justify-content-center fs-5 text-center">
           <div class="col-md-4">
             <p>Saya adalah lulusan dari SMK YADIKA SOREANG dengan jurusan Rekayasa Perangkat Lunak, Saya adalah
-              seseorang yang berkepribadian jujur, bertanggung jawab dan memiliki rasa ingin tau yang tinggi.
+              seseorang yang berkepribadian jujur,rajin,baik,mandiri,
+               bertanggung jawab dan memiliki rasa ingin tau yang tinggi.
             </p>
           </div>
           <div class="col-md-4">
-            <p>Saya memang belum  pernah bekerja sebelumnya tapi saya yakin mampu untuk berada dalam tekanan
-              serta bekerja dalam team. Saya memiliki sedikit pemahaman dalam html, css dan javascript dan sedang
-              dalam tahap belajar.
+            <p>Saya memang belum  pernah bekerja sebelumnya tapi saya yakin mampu untuk bekerja dalam tekanan
+              serta bekerja dalam team. Saya memiliki passion dalam teknologi dan sangat menyukai dalam membongkar
+              dan memperbaiki barang elekronik.
             </p>
           </div>
         </div>
@@ -152,9 +153,10 @@
         <div class="row justify-content-evenly">
           <div class="col-md-4 ">
             <div class="card" style="background-color: #e2edff;" >
-              <img src="img/project 1.png" class="card-img-top" alt="project 1">
+              <img src="img/gambar 1.jpeg" class="card-img-top" height="235px" alt="project 1">
               <div class="card-body">
-                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                <p class="card-text">Ini adalah project yang saya buat saat sedang mengikuti kegiatan ujikom yaitu membuat aplikasi sederhana
+                  ATM.</p>
               </div>
             </div>
           </div>
@@ -182,20 +184,29 @@
         </div>
         <div class="row justify-content-center">
           <div class="col-md-8">
-            <form>
+            <div class="alert alert-success alert-dismissible fade show d-none" id="hilang" role="alert">
+              <strong>Terimakasih!</strong> pesan anda telah saya terima.
+              <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+            <form name="contact-form">
               <div class="mb-3">
                 <label for="name" class="form-label">Nama lengkap</label>
-                <input type="text" class="form-control" id="name" aria-describedby="name">
+                <input type="text" class="form-control" id="name" aria-describedby="name" name="nama">
               </div>
               <div class="mb-3">
                 <label for="email" class="form-label">Email</label>
-                <input type="email" class="form-control" id="email" aria-describedby="email">
+                <input type="email" class="form-control" id="email" aria-describedby="email" name="email">
               </div>
               <div class="mb-3">
                 <label for="pesan" class="form-label">Pesan</label>
-                <textarea class="form-control" id="pesan" rows="3"></textarea>
+                <textarea class="form-control" id="pesan" rows="3" name="pesan"></textarea>
               </div>
-              <button type="submit" class="btn btn-danger">kirim</button>
+              <button type="submit" class="btn btn-primary btn-kirim">kirim</button>
+
+              <button class="btn btn-primary btn-loading d-none" type="button" disabled>
+                <span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>
+                Loading...
+              </button>
             </form>
           </div>
         </div>
@@ -215,5 +226,33 @@
       integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
       crossorigin="anonymous"
     ></script>
+    <script>
+      const scriptURL = 'https://script.google.com/macros/s/AKfycbwbAwozTbzC2c48voeTpLfWjeFZ9GqoQfs9BFbOlT-Oz4yp-AYwGGJJ51n8wMpKIE9Fjg/exec'
+      const form = document.forms['contact-form']
+      const btnKirim = document.querySelector('.btn-kirim');
+      const btnLoading = document.querySelector('.btn-loading');
+      const myAlert = document.getElementById('hilang')
+    
+      form.addEventListener('submit', e => {
+        e.preventDefault()
+        //ketika tombol submit di klik
+        // menghilangkan tombol kirim,munculkan loading
+        btnLoading.classList.toggle('d-none');
+        btnKirim.classList.toggle('d-none');
+        fetch(scriptURL, { method: 'POST', body: new FormData(form)})
+          .then(response => {
+             // menghilangkan tombol loading,munculkan kirim
+              btnLoading.classList.toggle('d-none');
+              btnKirim.classList.toggle('d-none');
+              // munculin alert
+              myAlert.classList.toggle('d-none');
+              // mereset form
+              form.reset();
+            console.log('Success!', response)
+          }
+        )
+          .catch(error => console.error('Error!', error.message))
+      })
+    </script>
   </body>
 </html>
